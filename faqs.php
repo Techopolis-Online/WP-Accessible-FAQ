@@ -98,6 +98,9 @@ function faq_accordion_shortcode() {
                 margin: 0;
                 display: block;
             }
+            .accordion-button h2 {
+                margin-bottom: 0;
+            }
         </style>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
