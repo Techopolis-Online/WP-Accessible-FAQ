@@ -1,0 +1,18 @@
+{
+    "name": "tayarndt/wp-accessible-faq",
+    "description": "A plugin to make FAQ's accessible.",
+    "type": "wordpress-plugin",
+    "require": {
+        "yahnis-elsts/plugin-update-checker": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tayarndt\\WpAccessibleFaq\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Taylor arndt"
+        }
+    ]
+}
