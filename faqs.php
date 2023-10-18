@@ -6,6 +6,7 @@
  * Author: Taylor Arndt
  */
 
+ include_once('settings.php');
 // Register Custom Post Type
 function create_faq_cpt() {
     $labels = array(
