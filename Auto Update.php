@@ -18,7 +18,7 @@ function setup_github_plugin_updater() {
     // $updateChecker->setAuthentication('your-token-here');
 
     // Optional: Set the branch that contains the stable release.
-    $updateChecker->setBranch('main');
+    $updateChecker->setBranch('master'); // Updated to use the master branch
 }
 
 // Hook the function to the init action to set up the update checker after all plugins are loaded.

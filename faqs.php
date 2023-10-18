@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Accessible FAQ Accordion
  * Description: A plugin to create individual accessible FAQ accordion boxes with enhanced styling.
- * Version: 1.4.1
+ * Version: 1.4.0
  * Author: Taylor Arndt
  */
 
