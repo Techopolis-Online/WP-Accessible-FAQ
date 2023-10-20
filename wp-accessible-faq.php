@@ -20,7 +20,6 @@ function my_plugin_enqueue_assets() {
 
     // Enqueue the JS
     wp_enqueue_script('my-plugin-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), '1.0.0', true); 
-    // Here, 'jquery' is mentioned as a dependency assuming your script requires jQuery. Adjust as needed.
 }
 add_action('wp_enqueue_scripts', 'my_plugin_enqueue_assets');
 
