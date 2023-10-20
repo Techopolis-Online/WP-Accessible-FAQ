@@ -2,11 +2,22 @@ document.addEventListener('DOMContentLoaded', function() {
     var accordions = document.querySelectorAll('.accordion-button');
     var allExpanded = false; // state to check if all are expanded or collapsed
 
+    // Check for reduced motion preference
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function toggleAccordion(accordion) {
         var content = document.getElementById('content-' + accordion.id.split('-')[1]);
         var expanded = accordion.getAttribute('aria-expanded') === 'true';
+
+        if (reducedMotion) {
+            content.style.transition = 'none';
+        } else {
+            content.style.transition = 'max-height 0.2s ease-out';
+        }
+
         accordion.setAttribute('aria-expanded', !expanded);
         content.setAttribute('aria-hidden', expanded);
+
         if(expanded){
             content.style.maxHeight = '0';
         } else {
