@@ -1,0 +1,36 @@
+            .faq-accordion {
+                width: 100%;
+            }
+            .accordion-item {
+                background-color: #154c79; /* Box Background Color */
+                color: #F5F5DC; /* Text Color */
+                margin-bottom: 20px; /* Space between boxes */
+                border-radius: 8px; /* Rounded Corners */
+                overflow: hidden;
+            }
+            .accordion-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: #ffffff; /* Content Background Color */
+                color: #000000; /* Answer Text Color */
+                padding: 0 10px;
+                box-sizing: border-box;
+            }
+            .accordion-button {
+                cursor: pointer;
+                padding: 10px;
+                border: none;
+                text-align: left;
+                width: 100%;
+                box-sizing: border-box;
+                background-color: inherit;
+                color: inherit;
+                font-size: inherit;
+                margin: 0;
+                display: block;
+            }
+            .accordion-button h2 {
+                margin-bottom: 0;
+            }
+        

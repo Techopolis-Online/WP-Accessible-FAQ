@@ -14,6 +14,19 @@ if (!defined('ABSPATH')) {
 // include the settings files and the license checker
 include_once('settings.php');
 include_once('license-checker.php');
+function my_plugin_enqueue_assets() {
+    // Enqueue the CSS
+    wp_enqueue_style('my-plugin-style', plugins_url('assets/css/style.css', __FILE__), array(), '1.0.0');
+
+    // Enqueue the JS
+    wp_enqueue_script('my-plugin-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), '1.0.0', true); 
+    // Here, 'jquery' is mentioned as a dependency assuming your script requires jQuery. Adjust as needed.
+}
+add_action('wp_enqueue_scripts', 'my_plugin_enqueue_assets');
+
+
+
+// include auto updater
 require 'kernl-update-checker/kernl-update-checker.php';
 $MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
     'https://kernl.us/api/v1/updates/6531457df13e411d863b0f4f/',
@@ -80,67 +93,6 @@ function faq_accordion_shortcode() {
             wp_reset_postdata();
             ?>
         </div>
-        <style>
-            .faq-accordion {
-                width: 100%;
-            }
-            .accordion-item {
-                background-color: #154c79; /* Box Background Color */
-                color: #F5F5DC; /* Text Color */
-                margin-bottom: 20px; /* Space between boxes */
-                border-radius: 8px; /* Rounded Corners */
-                overflow: hidden;
-            }
-            .accordion-content {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.2s ease-out;
-                background-color: #ffffff; /* Content Background Color */
-                color: #000000; /* Answer Text Color */
-                padding: 0 10px;
-                box-sizing: border-box;
-            }
-            .accordion-button {
-                cursor: pointer;
-                padding: 10px;
-                border: none;
-                text-align: left;
-                width: 100%;
-                box-sizing: border-box;
-                background-color: inherit;
-                color: inherit;
-                font-size: inherit;
-                margin: 0;
-                display: block;
-            }
-            .accordion-button h2 {
-                margin-bottom: 0;
-            }
-        </style>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var accordions = document.querySelectorAll('.accordion-button');
-                accordions.forEach(function(accordion) {
-                    accordion.addEventListener('click', function() {
-                        var content = document.getElementById('content-' + accordion.id.split('-')[1]);
-                        var expanded = accordion.getAttribute('aria-expanded') === 'true';
-                        accordion.setAttribute('aria-expanded', !expanded);
-                        content.setAttribute('aria-hidden', expanded);
-                        if(expanded){
-                            content.style.maxHeight = '0';
-                        }else{
-                            content.style.maxHeight = content.scrollHeight + "px";
-                        }
-                    });
-                    accordion.addEventListener('keydown', function(event) {
-                        if(event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            accordion.click();
-                        }
-                    });
-                });
-            });
-        </script>
         <?php
     }
     return ob_get_clean();
