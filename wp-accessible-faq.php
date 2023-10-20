@@ -1,28 +1,27 @@
 <?php
 /**
- * Plugin Name: WP Accessible FAQ
+ * Plugin Name: wp-accessible-faq
  * Description: A plugin to create individual accessible FAQ accordion boxes with enhanced styling.
- * Version: 1.4.0
+ * Version: 0.0.4
  * Author: Taylor Arndt
  */
 
-// Include the Composer autoloader
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
+// Prevent direct file access
+if (!defined('ABSPATH')) {
+    exit;
 }
 
-// Use the Puc_v4_Factory class
-if (class_exists('Puc_v4_Factory')) {
-    $updateChecker = Puc_v4_Factory::buildUpdateChecker(
-        'https://github.com/tayarndt/WP-Accessible-FAQ',
-        __FILE__,
-        'WP-Accessible-FAQ'
-    );
+// include the settings files and the license checker
+include_once('settings.php');
+include_once('license-checker.php');
+require 'kernl-update-checker/kernl-update-checker.php';
+$MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://kernl.us/api/v1/updates/6531457df13e411d863b0f4f/',
+    __FILE__,
+    'wp-accessible-faq'
+);
 
- include_once('settings.php');
- include_once(plugin_dir_path(__FILE__) . 'Auto Update.php');
-
- // Register Custom Post Type
+// Register Custom Post Type
 function create_faq_cpt() {
     $labels = array(
         'name' => 'FAQs',
@@ -147,4 +146,5 @@ function faq_accordion_shortcode() {
     return ob_get_clean();
 }
 add_shortcode('faq_accordion', 'faq_accordion_shortcode');
-}
+
+
