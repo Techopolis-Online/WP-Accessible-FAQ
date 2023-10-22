@@ -57,11 +57,12 @@ function render_accordion_shortcode($atts) {
     foreach ($accordion_data['questions'] as $key => $question) {
         $output .= '<div class="accordion-item">';
         $output .= '<div id="accordion-question-' . $key . '" class="accordion-question">' . esc_html($question['title']) . '</div>';
+        
         $output .= '<div id="accordion-content-' . $key . '" class="accordion-content">' . wp_kses_post($question['content']) . '</div>';
+
         $output .= '</div>';
     }
     $output .= '</div>';
-
     return $output;
 }
 add_shortcode('faq_accordion', 'render_accordion_shortcode');

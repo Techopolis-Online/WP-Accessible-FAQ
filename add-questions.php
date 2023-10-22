@@ -63,5 +63,4 @@ function render_add_questions_page() {
     echo '</div>';
     echo '</form>';
 }
-
 ?>

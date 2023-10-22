@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var accordions = document.querySelectorAll('.accordion-question');
 
     function toggleAccordion(accordion) {
         var contentID = 'accordion-content-' + accordion.id.split('-')[2];
@@ -15,6 +14,17 @@ document.addEventListener('DOMContentLoaded', function() {
             accordion.setAttribute('aria-expanded', 'true');
         }
     }
+
+    // Transform .accordion-question divs by wrapping them in h3
+    var accordions = document.querySelectorAll('.accordion-question');
+    accordions.forEach(function(accordion) {
+        var h3 = document.createElement('h3');
+        accordion.parentNode.insertBefore(h3, accordion);
+        h3.appendChild(accordion);
+    });
+
+    // Re-select accordions after transformation
+    accordions = document.querySelectorAll('.accordion-question');
 
     accordions.forEach(function(accordion) {
         var contentID = 'accordion-content-' + accordion.id.split('-')[2];
@@ -43,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add a button to expand/collapse all accordions
     var toggleAllButton = document.createElement('button');
     toggleAllButton.textContent = 'Expand All';
+    toggleAllButton.className = 'accordion-toggle-all';
     toggleAllButton.addEventListener('click', function() {
         var allOpen = true;
         accordions.forEach(function(accordion) {
@@ -66,7 +77,9 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleAllButton.textContent = allOpen ? 'Expand All' : 'Collapse All';
     });
 
-    // Append the button before the first accordion
-    var firstAccordion = accordions[0];
-    firstAccordion.parentNode.insertBefore(toggleAllButton, firstAccordion);
+    // Append the button at the top of the accordion container
+    if (accordions.length > 0) {
+        var accordionContainer = accordions[0].closest('.accordion');
+        accordionContainer.insertBefore(toggleAllButton, accordionContainer.firstChild);
+    }
 });
