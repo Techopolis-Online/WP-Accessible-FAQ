@@ -1,31 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var accordions = document.querySelectorAll('.accordion-button');
-    var allExpanded = false; // state to check if all are expanded or collapsed
-
-    // Check for reduced motion preference
-    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var accordions = document.querySelectorAll('.accordion-question');
 
     function toggleAccordion(accordion) {
-        var content = document.getElementById('content-' + accordion.id.split('-')[1]);
-        var expanded = accordion.getAttribute('aria-expanded') === 'true';
+        var contentID = 'accordion-content-' + accordion.id.split('-')[2];
+        var content = document.getElementById(contentID);
+        
+        var isExpanded = accordion.getAttribute('aria-expanded') === 'true';
 
-        if (reducedMotion) {
-            content.style.transition = 'none';
+        if (isExpanded) {
+            content.style.display = 'none';
+            accordion.setAttribute('aria-expanded', 'false');
         } else {
-            content.style.transition = 'max-height 0.2s ease-out';
-        }
-
-        accordion.setAttribute('aria-expanded', !expanded);
-        content.setAttribute('aria-hidden', expanded);
-
-        if(expanded){
-            content.style.maxHeight = '0';
-        } else {
-            content.style.maxHeight = content.scrollHeight + "px";
+            content.style.display = 'block';
+            accordion.setAttribute('aria-expanded', 'true');
         }
     }
 
     accordions.forEach(function(accordion) {
+        var contentID = 'accordion-content-' + accordion.id.split('-')[2];
+
+        // Set ARIA roles and attributes
+        accordion.setAttribute('role', 'button');
+        accordion.setAttribute('aria-controls', contentID);
+        accordion.setAttribute('aria-expanded', 'false');
+        
+        // Initially hide all the accordion contents
+        var content = document.getElementById(contentID);
+        content.style.display = 'none';
+        
         accordion.addEventListener('click', function() {
             toggleAccordion(accordion);
         });
@@ -38,29 +40,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Create a button to expand/collapse all accordions
+    // Add a button to expand/collapse all accordions
     var toggleAllButton = document.createElement('button');
-    toggleAllButton.id = 'toggleAll';
     toggleAllButton.textContent = 'Expand All';
-
     toggleAllButton.addEventListener('click', function() {
+        var allOpen = true;
         accordions.forEach(function(accordion) {
-            if (allExpanded) {
-                if (accordion.getAttribute('aria-expanded') === 'true') {
-                    toggleAccordion(accordion);
-                }
-            } else {
-                if (accordion.getAttribute('aria-expanded') === 'false' || accordion.getAttribute('aria-expanded') === null) {
-                    toggleAccordion(accordion);
-                }
+            var content = document.getElementById('accordion-content-' + accordion.id.split('-')[2]);
+            if(content.style.display === 'none') {
+                allOpen = false;
             }
         });
         
-        allExpanded = !allExpanded; // Toggle the state after all accordions have been expanded/collapsed
-        toggleAllButton.textContent = allExpanded ? "Collapse All" : "Expand All"; // Update the button text
+        accordions.forEach(function(accordion) {
+            var content = document.getElementById('accordion-content-' + accordion.id.split('-')[2]);
+            if(allOpen) {
+                content.style.display = 'none';
+                accordion.setAttribute('aria-expanded', 'false');
+            } else {
+                content.style.display = 'block';
+                accordion.setAttribute('aria-expanded', 'true');
+            }
+        });
+        
+        toggleAllButton.textContent = allOpen ? 'Expand All' : 'Collapse All';
     });
 
-    // Add the button before the first accordion
+    // Append the button before the first accordion
     var firstAccordion = accordions[0];
     firstAccordion.parentNode.insertBefore(toggleAllButton, firstAccordion);
 });
