@@ -16,6 +16,7 @@ include_once(plugin_dir_path(__FILE__) . 'add-accordion.php');
 include_once(plugin_dir_path(__FILE__) . 'manage-accordion.php');
 include_once(plugin_dir_path(__FILE__) . 'submenu-options.php');
 include_once(plugin_dir_path(__FILE__) . 'manage-questions.php');
+include_once(plugin_dir_path(__FILE__) . 'add-questions.php');
 
 
 
