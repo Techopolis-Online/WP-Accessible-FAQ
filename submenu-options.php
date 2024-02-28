@@ -1,6 +1,9 @@
 <?php
 
 // include files
+include_once('add-accordion.php');
+include_once('manage-accordion.php');
+include_once('add-questions.php');
 
 // Add submenus
 function wp_accessible_faq_add_submenus() {
