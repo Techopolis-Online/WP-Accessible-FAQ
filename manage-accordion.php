@@ -5,31 +5,32 @@ function render_manage_accordions_page() {
     $all_options = wp_load_alloptions();
     $accordions = array();
     foreach ($all_options as $key => $value) {
-        if (strpos($key, 'accordion_') === 0) {
-            $accordions[$key] = unserialize($value);
+        if (strpos($key, 'accordion_') === 0) {  // Assuming accordion options start with 'accordion_'
+            $accordions[$key] = maybe_unserialize($value);
         }
     }
 
     echo '<div class="wrap">';
     echo '<h2>Manage Accordions</h2>';
 
-    // Check if there are any accordions
     if (empty($accordions)) {
         echo '<p>No accordions found.</p>';
     } else {
         echo '<table class="widefat">';
         echo '<thead>';
-        echo '<tr><th>Name</th><th>Shortcode</th><th>Actions</th></tr>';
+        echo '<tr><th>Accordion Name</th><th>Shortcode</th><th>Number of Questions</th></tr>';
         echo '</thead>';
         echo '<tbody>';
 
-        foreach ($accordions as $key => $accordion) {
-            $shortcode = '[faq_accordion id="' . esc_attr($key) . '"]';
+        foreach ($accordions as $accordion_id => $accordion) {
+            $details_url = admin_url('admin.php?page=wp-accessible-faq-accordion-details&accordion_id=' . $accordion_id);
+            $shortcode = '[faq_accordion id="' . esc_attr($accordion_id) . '"]';
+            $num_questions = isset($accordion['questions']) ? count($accordion['questions']) : 0;
+
             echo '<tr>';
-            echo '<td>' . esc_html($accordion['name']) . '</td>';
-            echo '<td><input type="text" readonly value="' . esc_attr($shortcode) . '" class="large-text code" onclick="this.select();"></td>';
-            // Placeholder for link to accordion details - you'll need to implement the actual link or functionality
-            echo '<td><a href="#">Details</a></td>';
+            echo '<td><a href="' . esc_url($details_url) . '">' . esc_html($accordion['name']) . '</a></td>';
+            echo '<td><input type="text" onfocus="this.select();" readonly value="' . esc_attr($shortcode) . '" class="large-text code"></td>';
+            echo '<td>' . esc_html($num_questions) . '</td>';
             echo '</tr>';
         }
 

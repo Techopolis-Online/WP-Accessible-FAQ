@@ -4,6 +4,9 @@
 include_once('add-accordion.php');
 include_once('manage-accordion.php');
 include_once('add-questions.php');
+include_once('manage-questions.php');
+include_once('accordian-details.php');
+
 
 // Add submenus
 function wp_accessible_faq_add_submenus() {
@@ -26,6 +29,16 @@ function wp_accessible_faq_add_submenus() {
         'manage_options', 
         'wp-accessible-faq-manage-accordions',
         'render_manage_accordions_page'
+    );
+
+    // add accordian details submenu that is hidden
+    add_submenu_page(
+        '',  // Parent slug is null to hide the submenu
+        __('Accordion Details', 'wp-accessible-faq'),
+        __('Accordion Details', 'wp-accessible-faq'),
+        'manage_options', 
+        'wp-accessible-faq-accordion-details',  // Page slug
+        'render_accordion_details_page'  // Function to display the content
     );
 
     // Add Questions
