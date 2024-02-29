@@ -2,8 +2,8 @@
 /**
  * Plugin Name: wp-accessible-faq
  * Description: A plugin to create multiple accessible accordions, ideal for FAQs and more.
- * Version: 1.1.0
- * Author: Your Name
+ * Version: 2.0 beta 1
+ * Author: Techopolis Online Solutions
  */
 
 // Prevent direct file access
@@ -26,3 +26,5 @@ $MultiAccordionUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
     __FILE__,
     'wp-multi-accordion'
 );
+
+
