@@ -4,25 +4,22 @@ function render_accordion_details_page() {
 
     $accordion_id = isset($_GET['accordion_id']) ? sanitize_text_field($_GET['accordion_id']) : '';
 
-    // Handle POST request to update question
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'update_question') {
+    // Handle POST request for both updating and deleting questions
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'], $_POST['question_index'])) {
+        $question_index = intval($_POST['question_index']);
         $accordion = get_option($accordion_id);
-        if (!empty($accordion) && isset($accordion['questions'][intval($_POST['question_index'])])) {
-            // Update the question and content based on the form input
-            $accordion['questions'][intval($_POST['question_index'])]['title'] = sanitize_text_field($_POST['question_title']);
-            $accordion['questions'][intval($_POST['question_index'])]['content'] = sanitize_text_field($_POST['question_content']);
-            update_option($accordion_id, $accordion);
-            echo '<div class="notice notice-success"><p>Question updated successfully.</p></div>';
-        }
-    }
 
-    // Handle delete action
-    if (isset($_GET['action'], $_GET['question_index']) && $_GET['action'] == 'delete' && check_admin_referer('delete_question')) {
-        $accordion = get_option($accordion_id);
-        if (!empty($accordion) && isset($accordion['questions'][intval($_GET['question_index'])])) {
-            array_splice($accordion['questions'], intval($_GET['question_index']), 1);
-            update_option($accordion_id, $accordion);
-            echo '<div class="notice notice-success"><p>Question deleted successfully.</p></div>';
+        if ($accordion && isset($accordion['questions'][$question_index])) {
+            if ($_POST['action'] == 'update_question') {
+                $accordion['questions'][$question_index]['title'] = sanitize_text_field($_POST['question_title']);
+                $accordion['questions'][$question_index]['content'] = sanitize_text_field($_POST['question_content']);
+                update_option($accordion_id, $accordion);
+                echo '<div class="notice notice-success"><p>Question updated successfully.</p></div>';
+            } elseif ($_POST['action'] == 'delete_question' && check_admin_referer('delete_question')) {
+                array_splice($accordion['questions'], $question_index, 1);
+                update_option($accordion_id, $accordion);
+                echo '<div class="notice notice-success"><p>Question deleted successfully.</p></div>';
+            }
         }
     }
 
@@ -32,7 +29,10 @@ function render_accordion_details_page() {
         return;
     }
 
-    echo '<div class="wrap"><h1>Accordion Details: ' . esc_html($accordion['name']) . '</h1>';
+    // Display accordion details and questions
+    echo '<div class="wrap">';
+    echo '<h1>Accordion Details: ' . esc_html($accordion['name']) . '</h1>';
+
     if (!empty($accordion['questions'])) {
         echo '<table class="widefat"><thead><tr><th>Question</th><th>Content</th><th>Actions</th></tr></thead><tbody>';
         foreach ($accordion['questions'] as $index => $question) {
@@ -43,7 +43,13 @@ function render_accordion_details_page() {
             echo '<td>';
             echo '<input type="hidden" name="question_index" value="' . $index . '">';
             echo '<input type="hidden" name="action" value="update_question">';
-            echo '<input type="submit" value="Save" class="button">';
+            echo '<input type="submit" value="Update" class="button">';
+            echo '</form>';
+            echo '<form method="POST" action="" style="display:inline;">';
+            echo '<input type="hidden" name="question_index" value="' . $index . '">';
+            echo '<input type="hidden" name="action" value="delete_question">';
+            wp_nonce_field('delete_question');
+            echo '<input type="submit" value="Delete" class="button" onclick="return confirm(\'Are you sure you want to delete this question?\');">';
             echo '</form>';
             echo '</td>';
             echo '</tr>';
@@ -52,6 +58,7 @@ function render_accordion_details_page() {
     } else {
         echo '<p>No questions found in this accordion.</p>';
     }
+
     echo '</div>'; // Close .wrap
 }
 ?>
