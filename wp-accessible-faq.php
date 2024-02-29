@@ -26,5 +26,3 @@ $MultiAccordionUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
     __FILE__,
     'wp-multi-accordion'
 );
-
-
