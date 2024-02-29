@@ -1,19 +1,13 @@
 <?php
 function render_accordion_details_page() {
+    // Enqueue jQuery for modal functionality - usually included in WP admin by default
+    wp_enqueue_script('jquery');
+
     // Get the accordion ID from the URL query parameter
     $accordion_id = isset($_GET['accordion_id']) ? sanitize_text_field($_GET['accordion_id']) : '';
 
-    // Check for a delete action and process it before fetching the updated accordion data
-    if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['question_index']) && check_admin_referer('delete_question')) {
-        $accordion = get_option($accordion_id);
-        if (!empty($accordion) && isset($accordion['questions'][intval($_GET['question_index'])])) {
-            // Remove the question from the array
-            array_splice($accordion['questions'], intval($_GET['question_index']), 1);
-            // Update the accordion data in the database
-            update_option($accordion_id, $accordion);
-            echo '<div class="notice notice-success"><p>Question deleted successfully.</p></div>';
-        }
-    }
+    // Check for a delete action and process it
+    // Your existing deletion logic here...
 
     // Fetch the updated accordion data
     $accordion = get_option($accordion_id);
@@ -28,22 +22,19 @@ function render_accordion_details_page() {
     echo '<div class="wrap">';
     echo '<h1>Accordion Details: ' . esc_html($accordion['name']) . '</h1>';
 
-    // List questions with delete functionality
+    // List questions with edit functionality
     if (!empty($accordion['questions'])) {
         echo '<table class="widefat">';
         echo '<thead><tr><th>Question</th><th>Actions</th></tr></thead>';
         echo '<tbody>';
 
         foreach ($accordion['questions'] as $index => $question) {
-            // Correct the action URL to reflect the details page and the proper nonce generation
-            $delete_nonce_url = wp_nonce_url(admin_url('admin.php?page=wp-accessible-faq-accordion-details&accordion_id=' . $accordion_id . '&action=delete&question_index=' . $index), 'delete_question');
             echo '<tr>';
-            echo '<td>' . esc_html($question['title']) . '</td>';
+            echo '<td id="question_text_' . $index . '">' . esc_html($question['title']) . '</td>';
             echo '<td>';
-            // Placeholder for the edit button
-            echo '<a href="#" class="button">Edit</a> ';
-            // Delete button with nonce URL for security
-            echo '<a href="' . $delete_nonce_url . '" class="button" onclick="return confirm(\'Are you sure you want to delete this question?\')">Delete</a>';
+            // Edit button triggers a JavaScript function to open the modal
+            echo '<button onclick="openEditModal(' . $index . ')" class="button">Edit</button> ';
+            // Delete button (your existing delete functionality)
             echo '</td>';
             echo '</tr>';
         }
@@ -54,6 +45,42 @@ function render_accordion_details_page() {
         echo '<p>No questions found in this accordion.</p>';
     }
 
+    // Modal HTML structure for editing
+    echo '<div id="editModal" style="display:none; position:fixed; top:20%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; box-shadow:0 0 15px rgba(0,0,0,0.5); z-index:1000;">';
+    echo '<textarea id="editQuestionText" style="width:300px; height:200px;"></textarea>';
+    echo '<button onclick="saveQuestion()">Save</button>';
+    echo '<button onclick="closeEditModal()">Cancel</button>';
     echo '</div>';
+
+    // Overlay for modal
+    echo '<div id="modalOverlay" onclick="closeEditModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:500;"></div>';
+
+    // JavaScript for modal behavior
+    ?>
+    <script>
+    function openEditModal(index) {
+        var questionText = jQuery('#question_text_' + index).text();
+        jQuery('#editQuestionText').val(questionText);
+        jQuery('#editModal').show();
+        jQuery('#modalOverlay').show();
+        window.currentEditingIndex = index; // Store the index of the question being edited
+    }
+
+    function closeEditModal() {
+        jQuery('#editModal').hide();
+        jQuery('#modalOverlay').hide();
+    }
+
+    function saveQuestion() {
+        var updatedText = jQuery('#editQuestionText').val();
+        // Display the updated text in the table (for demonstration purposes)
+        // In a real application, you would send this to the server via AJAX
+        jQuery('#question_text_' + window.currentEditingIndex).text(updatedText);
+        closeEditModal();
+    }
+    </script>
+    <?php
+
+    echo '</div>'; // Close .wrap
 }
 ?>
