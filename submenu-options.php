@@ -4,6 +4,7 @@
 require_once('add-accordion.php');
 require_once('manage-accordion.php');
 require_once('add-questions.php');
+require_once("accordian-details.php");
 
 // Add main menu
 function wp_accessible_faq_add_menu() {
@@ -41,7 +42,7 @@ function wp_accessible_faq_add_submenus() {
 
     // Add Accordian Details (hidden)
     add_submenu_page(
-        null, // Parent slug is null to hide the submenu
+        '', // Parent slug is null to hide the submenu
         __('Accordion Details', 'wp-accessible-faq'),
         __('Accordion Details', 'wp-accessible-faq'),
         'manage_options', 
