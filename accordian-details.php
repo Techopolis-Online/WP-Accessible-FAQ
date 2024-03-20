@@ -33,6 +33,9 @@ function render_accordion_details_page() {
     echo '<div class="wrap">';
     echo '<h1>Accordion Details: ' . esc_html($accordion['name']) . '</h1>';
 
+    // Add link to add questions
+    echo '<a href="' . admin_url('admin.php?page=wp-accessible-faq-add-questions&accordion_id=' . esc_attr($accordion_id)) . '">Add Questions</a>';
+
     if (!empty($accordion['questions'])) {
         echo '<table class="widefat"><thead><tr><th>Question</th><th>Content</th><th>Actions</th></tr></thead><tbody>';
         foreach ($accordion['questions'] as $index => $question) {
