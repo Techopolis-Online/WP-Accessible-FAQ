@@ -51,11 +51,14 @@ function render_manage_accordions_page() {
             $shortcode = '[faq_accordion id="' . esc_attr($accordion_id) . '"]';
             $num_questions = isset($accordion['questions']) ? count($accordion['questions']) : 0;
 
+            // Display "0" instead of "1" when there are no questions
+            $num_questions_display = $num_questions > 0 ? $num_questions : 0;
+
             echo '<tr>';
             echo '<form method="post" action="">';
             echo '<td><input type="text" name="accordion_name" value="' . esc_attr($accordion['name']) . '"></td>';
             echo '<td><input type="text" onfocus="this.select();" readonly value="' . esc_attr($shortcode) . '" class="large-text code"></td>';
-            echo '<td>' . esc_html($num_questions) . '</td>';
+            echo '<td>' . esc_html($num_questions_display) . '</td>';
             echo '<td>';
             echo '<a href="' . esc_url($details_url) . '">View Details</a>';
             echo '<input type="hidden" name="accordion_id" value="' . esc_attr($accordion_id) . '">';
