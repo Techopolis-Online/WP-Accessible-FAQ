@@ -1,36 +1,70 @@
-            .faq-accordion {
-                width: 100%;
-            }
-            .accordion-item {
-                background-color: #154c79; /* Box Background Color */
-                color: #F5F5DC; /* Text Color */
-                margin-bottom: 20px; /* Space between boxes */
-                border-radius: 8px; /* Rounded Corners */
-                overflow: hidden;
-            }
-            .accordion-content {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.2s ease-out;
-                background-color: #ffffff; /* Content Background Color */
-                color: #000000; /* Answer Text Color */
-                padding: 0 10px;
-                box-sizing: border-box;
-            }
-            .accordion-button {
-                cursor: pointer;
-                padding: 10px;
-                border: none;
-                text-align: left;
-                width: 100%;
-                box-sizing: border-box;
-                background-color: inherit;
-                color: inherit;
-                font-size: inherit;
-                margin: 0;
-                display: block;
-            }
-            .accordion-button h2 {
-                margin-bottom: 0;
-            }
-        
+/* Remove custom styles for accordions */
+.faq-accordion {
+    width: 100%;
+}
+
+.accordion-item {
+    background-color: #154c79;
+    color: #f5f5dc;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.accordion-button {
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: inherit;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+    display: block;
+}
+
+.accordion-button h2 {
+    margin-bottom: 0;
+}
+
+/* WordPress admin style for table layout */
+.manage-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.manage-table th,
+.manage-table td {
+    border: 1px solid #e5e5e5;
+    padding: 8px;
+}
+
+.manage-table th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.manage-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.manage-table tbody tr:hover {
+    background-color: #e5e5e5;
+}
+
+/* Adjust the wrapper div style */
+.manage-accordions-wrap {
+    margin-top: 20px;
+}

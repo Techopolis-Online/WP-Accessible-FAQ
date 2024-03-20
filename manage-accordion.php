@@ -37,7 +37,7 @@ function render_manage_accordions_page() {
     if (empty($accordions)) {
         echo '<p>No accordions found.</p>';
     } else {
-        echo '<table class="widefat">';
+        echo '<table class="manage-table">'; // Updated class name here
         echo '<thead>';
         echo '<tr><th>Accordion Name</th><th>Shortcode</th><th>Number of Questions</th><th>Actions</th></tr>';
         echo '</thead>';
