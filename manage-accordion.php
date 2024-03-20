@@ -1,4 +1,6 @@
+
 <?php
+
 function render_manage_accordions_page() {
     // Handle delete action
     if (isset($_GET['action'], $_GET['accordion_id']) && $_GET['action'] === 'delete') {
@@ -32,12 +34,12 @@ function render_manage_accordions_page() {
     echo '<h2>Manage Accordions</h2>';
 
     // Add Accordion link
-    echo '<p><a href="' . admin_url('options-general.php?page=wp-accessible-faq-add-accordion') . '" class="button-primary">Add Accordion</a></p>';
+    echo '<p><a href="' . admin_url('admin.php?page=wp-accessible-faq-add-accordion') . '" class="button-primary">Add New Accordion</a></p>';
 
     if (empty($accordions)) {
         echo '<p>No accordions found.</p>';
     } else {
-        echo '<table class="manage-table">'; // Updated class name here
+        echo '<table class="manage-table">';
         echo '<thead>';
         echo '<tr><th>Accordion Name</th><th>Shortcode</th><th>Number of Questions</th><th>Actions</th></tr>';
         echo '</thead>';
@@ -50,13 +52,13 @@ function render_manage_accordions_page() {
             $num_questions = isset($accordion['questions']) ? count($accordion['questions']) : 0;
 
             echo '<tr>';
-            echo '<form method="post" action="">'; // Form for updating accordion name
+            echo '<form method="post" action="">';
             echo '<td><input type="text" name="accordion_name" value="' . esc_attr($accordion['name']) . '"></td>';
             echo '<td><input type="text" onfocus="this.select();" readonly value="' . esc_attr($shortcode) . '" class="large-text code"></td>';
             echo '<td>' . esc_html($num_questions) . '</td>';
             echo '<td>';
             echo '<a href="' . esc_url($details_url) . '">View Details</a>';
-            echo '<input type="hidden" name="accordion_id" value="' . esc_attr($accordion_id) . '">'; // Hidden field for accordion ID
+            echo '<input type="hidden" name="accordion_id" value="' . esc_attr($accordion_id) . '">';
             echo '<input type="submit" value="Update Name" class="button-primary">';
             echo '<a href="' . esc_url($delete_url) . '" onclick="return confirm(\'Are you sure you want to delete this accordion?\')">Delete</a>';
             echo '</td>';
@@ -70,4 +72,3 @@ function render_manage_accordions_page() {
 
     echo '</div>';
 }
-?>
