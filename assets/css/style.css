@@ -1,70 +1,49 @@
-/* Remove custom styles for accordions */
-.faq-accordion {
-    width: 100%;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    var accordions = document.querySelectorAll('.accordion-question');
 
-.accordion-item {
-    background-color: #154c79;
-    color: #f5f5dc;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-}
+    function toggleAccordion(accordion) {
+        var contentID = 'accordion-content-' + accordion.id.split('-')[2];
+        var content = document.getElementById(contentID);
+        
+        var isExpanded = accordion.getAttribute('aria-expanded') === 'true';
+        content.style.display = isExpanded ? 'none' : 'block';
+        accordion.setAttribute('aria-expanded', String(!isExpanded));
+        content.setAttribute('aria-hidden', String(!isExpanded));
+    }
 
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    background-color: #ffffff;
-    color: #000000;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
+    accordions.forEach(function(accordion) {
+        var contentID = 'accordion-content-' + accordion.id.split('-')[2];
+        var content = document.getElementById(contentID);
+        accordion.setAttribute('role', 'button');
+        accordion.setAttribute('aria-controls', contentID);
+        accordion.setAttribute('aria-expanded', 'false');
+        if (content) {
+            content.style.display = 'none';
+        } else {
+            console.error('Content element not found for accordion:', contentID);
+        }
+        
+        accordion.addEventListener('click', function() {
+            toggleAccordion(accordion);
+        });
 
-.accordion-button {
-    cursor: pointer;
-    padding: 10px;
-    border: none;
-    text-align: left;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: inherit;
-    color: inherit;
-    font-size: inherit;
-    margin: 0;
-    display: block;
-}
+        // Replace accordion button with h2 element for proper heading structure
+        var questionText = accordion.textContent;
+        var h2Element = document.createElement('h2');
+        h2Element.className = 'accordion-button';
+        h2Element.textContent = questionText;
+        accordion.parentNode.replaceChild(h2Element, accordion);
 
-.accordion-button h2 {
-    margin-bottom: 0;
-}
+        h2Element.addEventListener('click', function() {
+            toggleAccordion(h2Element);
+        });
+        h2Element.addEventListener('keydown', function(event) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                toggleAccordion(h2Element);
+            }
+        });
+    });
 
-/* WordPress admin style for table layout */
-.manage-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.manage-table th,
-.manage-table td {
-    border: 1px solid #e5e5e5;
-    padding: 8px;
-}
-
-.manage-table th {
-    background-color: #f1f1f1;
-    font-weight: bold;
-}
-
-.manage-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.manage-table tbody tr:hover {
-    background-color: #e5e5e5;
-}
-
-/* Adjust the wrapper div style */
-.manage-accordions-wrap {
-    margin-top: 20px;
-}
+    // Rest of your code for the 'Expand All' button...
+});

@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var h2Element = document.createElement('h2');
             h2Element.className = 'accordion-question';
             h2Element.textContent = questionText;
-            question.replaceWith(h2Element);
+            accordion.replaceChild(h2Element, question);
         } else {
             console.error('Question element not found for accordion:', accordion);
         }

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: wp-accessible-faq
  * Description: A plugin to create multiple accessible accordions, ideal for FAQs and more.
- * Version: 2.0 beta 1
+ * Version: 2.0 beta 5
  * Author: Techopolis Online Solutions
  */
 
