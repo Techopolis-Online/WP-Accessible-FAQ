@@ -95,18 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleAllButton.textContent = allOpen ? 'Expand All' : 'Collapse All';
     });
 
-<<<<<<< HEAD
-    // Append the h2 tag before the first accordion
-    var firstAccordion = accordions[0];
-    if (firstAccordion) {
-        firstAccordion.parentNode.insertBefore(toggleAllButton, firstAccordion);
-    } else {
-        console.error('No accordions found.');
-=======
+
     // Append the button at the top of the accordion container
     if (accordions.length > 0) {
         var accordionContainer = accordions[0].closest('.accordion');
         accordionContainer.insertBefore(toggleAllButton, accordionContainer.firstChild);
->>>>>>> cb18b78294e0fd7f37e020c60fe677895a9e7597
     }
 });
